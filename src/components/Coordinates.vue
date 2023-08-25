@@ -24,27 +24,28 @@ const {points} = defineProps<{
     points: Point[]
 }>()
 
-const maximumX = 1
-const maximumY = 1
+const maximumX = 1.1
+const maximumY = 1.1
 const translateX = (x: number) => (x + maximumX) * (width.value / (2 * maximumX));
 const translateY = (y: number) => height.value - (y + maximumY) * (height.value / (2*maximumY))
 
 const getColor = (x:number, y:number) => {
-    let influencer:number = 1
-    let rawColor: number[] = [0,0,0]
-    if(x>=0 && y>=0){
-        influencer = (x+y)/2
-        rawColor = [217,36,71]
-    } else if (x>y){
-        influencer = x
-        rawColor = [52,83,138]
-    } else if (y>=x){
-        influencer = y
-        rawColor = [123,47,93]
-    }
-    influencer = Math.sqrt(0.5*influencer+0.5)
+    x = parseFloat(x.toString());
+    y = parseFloat(y.toString());
+    let influencer: number = (x + y) / 2;
+    let rawColor: number[] = [0, 0, 0];
 
-    const color = rawColor.map(c=>(255-(255-c)*influencer))
+    if (x >= 0 && y >= 0) {
+        rawColor = [217, 36, 71];
+    } else if (x > y) {
+        influencer = x
+        rawColor = [52, 83, 138];
+    } else {
+        influencer = y
+        rawColor = [123, 47, 93];
+    }
+
+    const color = rawColor.map(c => Math.floor(c + (255 - c) * influencer));
     return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
@@ -68,6 +69,7 @@ const pointOnClick = (id:number)=>{
         <text x="25%" y="75%" class="quadrant-text" text-anchor="middle">不重要不紧急</text>
         
         <a v-for="(point, index) in points" :key="index" @click="pointOnClick(index)">
+            {{ console.log(point, getColor(point.x,point.y)) }}
             <g :style="`--point-color: ${getColor(point.x, point.y)}`">
                 <circle class="outer" :cx="translateX(point.x)" :cy="translateY(point.y)" r="10" :fill="getColor(point.x, point.y)"/>
                 <circle class="inner" :cx="translateX(point.x)" :cy="translateY(point.y)" r="7" fill="white" />

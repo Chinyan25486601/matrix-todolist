@@ -5,6 +5,7 @@ import Card from './components/Card.vue'
 import CircleButton from './components/CircleButton.vue'
 import { Point } from './interfaces';
 import { useRoute, useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 
 const Router = useRouter()
 const Route = useRoute()
@@ -15,6 +16,15 @@ const todos = useLocalStorage<Point[]>('todos', [
     {x:0.5,y:-0.8,title:"做完这个",description:""}
 ])
 
+const varify_todos = ()=>{
+    for(let i = 0; i!=todos.value.length; i++){
+        todos.value[i].x = parseFloat(todos.value[i].x.toString())
+        todos.value[i].y = parseFloat(todos.value[i].y.toString())
+    }
+}
+
+onMounted(varify_todos)
+
 const btnAddClick = ()=>{
     todos.value.push({
         x:0,y:0,title:"",description:""
@@ -24,6 +34,7 @@ const btnAddClick = ()=>{
 
 const btnBackClick = ()=>{
     Router.push("/")
+    varify_todos()
 }
 
 const btnDelClick = ()=>{
