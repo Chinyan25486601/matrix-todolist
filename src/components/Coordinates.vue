@@ -111,4 +111,10 @@ g:hover > .outer {
     stroke-width: 5px;
   }
 }
+
+@media (max-width: 768px) {
+    text {
+        font-size: 10px;
+    }
+}
 </style>
