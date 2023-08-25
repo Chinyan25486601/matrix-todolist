@@ -1,8 +1,10 @@
 <script setup lang="ts">
+const emit = defineEmits(['click'])
+const {style} = defineProps<{style?:any}>()
 </script>
 
 <template>
-    <div class="circle-button">
+    <div class="circle-button" @click="emit('click')" :style="style">
       <slot></slot>
     </div>
 </template>
@@ -10,6 +12,7 @@
 <style scoped>
 .circle-button {
   display: flex;
+  margin: 5px;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -19,9 +22,9 @@
   background-color: white;
   width: 40px;
   height: 40px;
+  font-size: 30px;
 }
 
-/* 在鼠标悬停时可以添加额外的样式，如变化颜色或缩放效果 */
 .circle-button:hover {
   transform: scale(1.05);
 }

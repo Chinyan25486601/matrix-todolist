@@ -4,12 +4,27 @@ import { useLocalStorage } from '@vueuse/core';
 import Card from './components/Card.vue'
 import CircleButton from './components/CircleButton.vue'
 import { Point } from './interfaces';
+import { useRoute, useRouter } from 'vue-router';
+
+const Router = useRouter()
+const Route = useRoute()
 
 const todos = useLocalStorage<Point[]>('todos', [
-    {id:114,x:0.5,y:0.5,title:"做完这个",description:""},
-    {id:514,x:-0.5,y:0.5,title:"做完这个",description:""},
-    {id:1919,x:0.5,y:-0.8,title:"做完这个",description:""},
+    {x:0.5,y:0.5,title:"做完这个",description:""},
+    {x:-0.5,y:0.5,title:"做完这个",description:""},
+    {x:0.5,y:-0.8,title:"做完这个",description:""}
 ])
+
+const btnAddClick = ()=>{
+    todos.value.push({
+        x:0,y:0,title:"",description:""
+    })
+    Router.push(`/todo/${todos.value.length-1}`)
+}
+
+const btnBackClick = ()=>{
+    Router.push("/")
+}
 </script>
 
 <template>
@@ -19,7 +34,8 @@ const todos = useLocalStorage<Point[]>('todos', [
         </Card>
         <div class="buttons">
             <div class="apptitle">矩待办</div>
-            <CircleButton>+</CircleButton>
+            <CircleButton @click="btnBackClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">←</CircleButton>
+            <CircleButton @click="btnAddClick()">+</CircleButton>
         </div>
     </div>
 </template>

@@ -6,8 +6,8 @@ import TodoDetail from './components/TodoDetail.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-    {path: "/", component: Matrix},
-    {path: "/todo/:id", component: TodoDetail}
+    {name:"matrix", path: "/", component: Matrix},
+    {name:"todo", path: "/todo/:id", component: TodoDetail}
 ]
 
 const router = createRouter({

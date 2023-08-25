@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import {useRoute} from 'vue-router'
+import { useLocalStorage } from '@vueuse/core';
+import { useRoute } from 'vue-router'
 
-const id = useRoute().params.id;
+import { Point } from '../interfaces';
+
+const id = <number><unknown>(useRoute().params.id).toString();
+
+const todos = useLocalStorage<Point[]>('todos', [])
+
+let thisPoint = todos.value[id]
 </script>
 
 <template>
-    aaaaa
-    <br>
-    {{ id }}
+    {{ thisPoint }}
 </template>
 
 <style scoped>

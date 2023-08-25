@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
 import {Point} from './../interfaces'
+import { useRouter } from 'vue-router';
 
 const windowSize = useWindowSize()
 
@@ -46,24 +47,27 @@ const getColor = (x:number, y:number) => {
     const color = rawColor.map(c=>(255-(255-c)*influencer))
     return `rgb(${color[0]},${color[1]},${color[2]})`
 }
+
+const Router = useRouter()
+
+const pointOnClick = (id:number)=>{
+    Router.push(`/todo/${id}`)
+}
 </script>
 
 <template>
     <div class="coordinate-system" :width="width+10" :height="height+10">
       <svg :width="width" :height="height">
 
-        <!-- 绘制坐标轴 -->
         <line x1="0" y1="50%" x2="100%" y2="50%" stroke="black" />
         <line x1="50%" y1="0" x2="50%" y2="100%" stroke="black" />
         
-        <!-- 绘制坐标系文本 -->
         <text x="75%" y="25%" class="quadrant-text" text-anchor="middle">紧急重要</text>
         <text x="75%" y="75%" class="quadrant-text" text-anchor="middle">紧急不重要</text>
         <text x="25%" y="25%" class="quadrant-text" text-anchor="middle">重要不紧急</text>
         <text x="25%" y="75%" class="quadrant-text" text-anchor="middle">不重要不紧急</text>
         
-        <!-- 根据传入的点坐标绘制点和描述 -->
-        <a v-for="(point, index) in points" :key="index" :href="`/todo/${point.id}`">
+        <a v-for="(point, index) in points" :key="index" @click="pointOnClick(index)">
             <g :style="`--point-color: ${getColor(point.x, point.y)}`">
                 <circle class="outer" :cx="translateX(point.x)" :cy="translateY(point.y)" r="10" :fill="getColor(point.x, point.y)"/>
                 <circle class="inner" :cx="translateX(point.x)" :cy="translateY(point.y)" r="7" fill="white" />
@@ -85,6 +89,10 @@ const getColor = (x:number, y:number) => {
   position: relative;
   stroke: var(--point-color);
   animation: scaleAnimation 3s infinite;
+}
+
+g:hover {
+    cursor: pointer;
 }
 
 g:hover > .outer {
