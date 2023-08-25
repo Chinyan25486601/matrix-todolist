@@ -11,7 +11,7 @@
 .card {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   padding: 20px; /* 根据需要调整内边距 */
   /* 指定固定的宽度和高度，或者使用max-width和max-height来控制大小 */
   width: 800px;
@@ -38,8 +38,8 @@
   /* 在小屏幕下调整Card的样式 */
   .card {
     /* 适度减小宽度 */
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
   }
 }
 </style>

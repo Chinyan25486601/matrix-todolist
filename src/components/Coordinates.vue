@@ -1,27 +1,55 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
 const windowSize = useWindowSize()
 
 // 默认情况下
 let width = computed<number>(()=>{
-    if( windowSize.width.value <= 550) return 290
+    if( windowSize.width.value <= 550) return 245
     else if(windowSize.width.value <= 768) return 520
     else return 750
 })
 let height = computed<number>(()=>{
-    if( windowSize.width.value <= 550) return 290
+    if( windowSize.width.value <= 550) return 245
     else if(windowSize.width.value <= 768) return 520
     else return 750
 })
 
-const points = ref([{x:1,y:1,description:"aaa"}])
 
-const maximumX = 5
-const maximumY = 5
+interface Point {
+    x: number;
+    y: number;
+    title: string;
+}
+
+const {points} = defineProps<{
+    points: Point[]
+}>()
+
+const maximumX = 1
+const maximumY = 1
 const translateX = (x: number) => (x + maximumX) * (width.value / (2 * maximumX));
 const translateY = (y: number) => height.value - (y + maximumY) * (height.value / (2*maximumY))
+
+const getColor = (x:number, y:number) => {
+    let influencer:number = 1
+    let rawColor: number[] = [0,0,0]
+    if(x>=0 && y>=0){
+        influencer = (x+y)/2
+        rawColor = [217,36,71]
+    } else if (x>y){
+        influencer = x
+        rawColor = [52,83,138]
+    } else if (y>=x){
+        influencer = y
+        rawColor = [123,47,93]
+    }
+    influencer = Math.sqrt(0.5*influencer+0.5)
+
+    const color = rawColor.map(c=>(255-(255-c)*influencer))
+    return `rgb(${color[0]},${color[1]},${color[2]})`
+}
 </script>
 
 <template>
@@ -33,25 +61,47 @@ const translateY = (y: number) => height.value - (y + maximumY) * (height.value 
         <line x1="50%" y1="0" x2="50%" y2="100%" stroke="black" />
         
         <!-- 绘制坐标系文本 -->
-        <text x="75%" y="25%" class="quadrant-text">一</text>
-        <text x="75%" y="75%" class="quadrant-text">四</text>
-        <text x="25%" y="25%" class="quadrant-text">二</text>
-        <text x="25%" y="75%" class="quadrant-text">三</text>
+        <text x="75%" y="25%" class="quadrant-text" text-anchor="middle">紧急重要</text>
+        <text x="75%" y="75%" class="quadrant-text" text-anchor="middle">紧急不重要</text>
+        <text x="25%" y="25%" class="quadrant-text" text-anchor="middle">重要不紧急</text>
+        <text x="25%" y="75%" class="quadrant-text" text-anchor="middle">不重要不紧急</text>
         
         <!-- 根据传入的点坐标绘制点和描述 -->
-        <g v-for="(point, index) in points" :key="index">
-          <circle :cx="translateX(point.x)" :cy="translateY(point.y)" r="3" fill="blue" />
-          <text :x="translateX(point.x) + 5" :y="translateY(point.y) - 5">{{ point.description }}</text>
-        </g>
+        <a v-for="(point, index) in points" :key="index">
+            <g :style="`--point-color: ${getColor(point.x, point.y)}`">
+                <circle class="outer" :cx="translateX(point.x)" :cy="translateY(point.y)" r="10" :fill="getColor(point.x, point.y)"/>
+                <circle class="inner" :cx="translateX(point.x)" :cy="translateY(point.y)" r="7" fill="white" />
+                <text :x="translateX(point.x) + 18" :y="translateY(point.y) + 5">{{ point.title }}</text>
+            </g>
+        </a>
       </svg>
     </div>
 </template>
   
 <style scoped>
-  .coordinate-system {
+.coordinate-system {
     display: inline-block;
-  }
-  .quadrant-text {
+}
+.quadrant-text {
     fill: gray;
+}
+.outer {
+  position: relative;
+  stroke: var(--point-color);
+  animation: scaleAnimation 3s infinite;
+}
+
+g:hover > .outer {
+  animation: scaleAnimation 1s infinite;
+}
+
+/* 定义鼠标悬停时的动画 */
+@keyframes scaleAnimation {
+  0%, 100% {
+    stroke-width: 8px;
   }
+  50% {
+    stroke-width: 5px;
+  }
+}
 </style>
