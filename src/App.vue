@@ -25,6 +25,14 @@ const btnAddClick = ()=>{
 const btnBackClick = ()=>{
     Router.push("/")
 }
+
+const btnDelClick = ()=>{
+    const match = /(\d+)/.exec(Route.fullPath)
+    if(!match) return
+    const id = <number><unknown>(match[0].toString())
+    todos.value.splice(id,1)
+    Router.push("/")
+}
 </script>
 
 <template>
@@ -34,6 +42,7 @@ const btnBackClick = ()=>{
         </Card>
         <div class="buttons">
             <div class="apptitle">矩待办</div>
+            <CircleButton @click="btnDelClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">x</CircleButton>
             <CircleButton @click="btnBackClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">←</CircleButton>
             <CircleButton @click="btnAddClick()">+</CircleButton>
         </div>
