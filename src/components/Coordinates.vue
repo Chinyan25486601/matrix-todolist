@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
+import {Point} from './../interfaces'
+
 const windowSize = useWindowSize()
 
 // 默认情况下
@@ -16,12 +18,6 @@ let height = computed<number>(()=>{
     else return 750
 })
 
-
-interface Point {
-    x: number;
-    y: number;
-    title: string;
-}
 
 const {points} = defineProps<{
     points: Point[]
@@ -67,7 +63,7 @@ const getColor = (x:number, y:number) => {
         <text x="25%" y="75%" class="quadrant-text" text-anchor="middle">不重要不紧急</text>
         
         <!-- 根据传入的点坐标绘制点和描述 -->
-        <a v-for="(point, index) in points" :key="index">
+        <a v-for="(point, index) in points" :key="index" :href="`/todo/${point.id}`">
             <g :style="`--point-color: ${getColor(point.x, point.y)}`">
                 <circle class="outer" :cx="translateX(point.x)" :cy="translateY(point.y)" r="10" :fill="getColor(point.x, point.y)"/>
                 <circle class="inner" :cx="translateX(point.x)" :cy="translateY(point.y)" r="7" fill="white" />

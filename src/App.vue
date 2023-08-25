@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import { useLocalStorage } from '@vueuse/core';
+
 import Card from './components/Card.vue'
 import CircleButton from './components/CircleButton.vue'
+import { Point } from './interfaces';
+
+const todos = useLocalStorage<Point[]>('todos', [
+    {id:114,x:0.5,y:0.5,title:"做完这个",description:""},
+    {id:514,x:-0.5,y:0.5,title:"做完这个",description:""},
+    {id:1919,x:0.5,y:-0.8,title:"做完这个",description:""},
+])
 </script>
 
 <template>
     <div class="main">
         <Card>
-            <RouterView></RouterView>
+            <RouterView :points="todos"></RouterView>
         </Card>
         <div class="buttons">
             <div class="apptitle">矩待办</div>

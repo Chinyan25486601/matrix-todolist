@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Coordinates from './Coordinates.vue'
 
-const points = ref([
-    {x:0.5,y:0.5,title:"做完这个"},
-    {x:-0.5,y:0.5,title:"做完这个"},
-    {x:0.5,y:-0.8,title:"做完这个"},
-])
+import Coordinates from './Coordinates.vue'
+import { Point } from '../interfaces';
+const {points} = defineProps<{
+    points: Point[]
+}>()
 </script>
 
 <template>
