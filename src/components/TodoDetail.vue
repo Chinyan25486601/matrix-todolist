@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 import { useRoute } from 'vue-router'
 
@@ -7,18 +8,25 @@ import { Point } from '../interfaces';
 const id = <number><unknown>(useRoute().params.id).toString();
 
 const todos = useLocalStorage<Point[]>('todos', [])
+
+onMounted(() => {
+    if(!todos.value[id].title) todos.value[id].title=""
+    if(!todos.value[id].description) todos.value[id].description=""
+    if(!todos.value[id].x) todos.value[id].x=0
+    if(!todos.value[id].y) todos.value[id].y=0
+})
 </script>
 
 <template>
     <div class="form-container">
     <form>
       <div class="form-group">
-        <label for="title" class="label">标题</label>
+        <label class="label">标题</label>
         <input type="text" id="title" v-model="todos[id].title" class="input" />
       </div>
 
       <div class="form-group">
-        <label for="description" class="label">描述</label>
+        <label class="label">描述</label>
         <textarea id="description" v-model="todos[id].description" class="input"></textarea>
       </div>
 
@@ -39,9 +47,8 @@ const todos = useLocalStorage<Point[]>('todos', [])
 
 <style scoped>
 .form-container {
-  width: 300px;
+  width: 500px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
 }
 
 .form-group {
@@ -64,8 +71,6 @@ const todos = useLocalStorage<Point[]>('todos', [])
 .slider {
   flex-grow: 1;
   -webkit-appearance: none;
-  width: 100%;
-  height: 10px;
   border-radius: 5px;
   background: #ccc;
   outline: none;
@@ -85,5 +90,14 @@ const todos = useLocalStorage<Point[]>('todos', [])
   border-radius: 50%;
   background: #007BFF;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+      width: 245px;
+    }
+    .label {
+        width: 80px;
+    }
 }
 </style>

@@ -10,11 +10,12 @@ import { onMounted } from 'vue';
 const Router = useRouter()
 const Route = useRoute()
 
-const todos = useLocalStorage<Point[]>('todos', [
-    {x:0.5,y:0.5,title:"做完这个",description:""},
-    {x:-0.5,y:0.5,title:"做完这个",description:""},
-    {x:0.5,y:-0.8,title:"做完这个",description:""}
-])
+const todos = useLocalStorage<Point[]>('todos', [{
+    "x": 0,
+    "y": 0,
+    "title": "",
+    "description": ""
+}])
 
 const varify_todos = ()=>{
     for(let i = 0; i!=todos.value.length; i++){
@@ -29,6 +30,7 @@ const btnAddClick = ()=>{
     todos.value.push({
         x:0,y:0,title:"",description:""
     })
+    console.log(todos.value)
     Router.push(`/todo/${todos.value.length-1}`)
 }
 

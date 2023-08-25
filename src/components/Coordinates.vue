@@ -70,7 +70,8 @@ const pointOnClick = (id:number)=>{
         
         <a v-for="(point, index) in points" :key="index" @click="pointOnClick(index)">
             {{ console.log(point, getColor(point.x,point.y)) }}
-            <g :style="`--point-color: ${getColor(point.x, point.y)}`">
+            <!-- 保留index=0的一条，防止出现原因未知的错误 -->
+            <g :style="`--point-color: ${getColor(point.x, point.y)}`" v-if="index!=0">
                 <circle class="outer" :cx="translateX(point.x)" :cy="translateY(point.y)" r="10" :fill="getColor(point.x, point.y)"/>
                 <circle class="inner" :cx="translateX(point.x)" :cy="translateY(point.y)" r="7" fill="white" />
                 <text :x="translateX(point.x) + 18" :y="translateY(point.y) + 5">{{ point.title }}</text>
