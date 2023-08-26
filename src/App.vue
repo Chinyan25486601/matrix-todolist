@@ -17,17 +17,12 @@ const todos = useLocalStorage<Point[]>('todos', [{
     "description": ""
 }])
 
-
-if(true) for(let i = -0.9; i<=1;i+=0.1){
-        for(let j = -0.9; j<=1; j+=0.1){
-            todos.value.push({
-                x:i,
-                y:j,
-                title:"",
-                description:""
-            })
-        }
-}
+if(todos.value.length>=100) todos.value = [{
+    "x": 0,
+    "y": 0,
+    "title": "",
+    "description": ""
+}];
 
 const varify_todos = ()=>{
     for(let i = 0; i!=todos.value.length; i++){
