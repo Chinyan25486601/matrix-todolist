@@ -18,7 +18,7 @@ const todos = useLocalStorage<Point[]>('todos', [{
 }])
 
 
-if(false) for(let i = -0.9; i<=1;i+=0.1){
+if(true) for(let i = -0.9; i<=1;i+=0.1){
         for(let j = -0.9; j<=1; j+=0.1){
             todos.value.push({
                 x:i,
@@ -70,7 +70,7 @@ const btnDelClick = ()=>{
             <div class="apptitle">矩待办</div>
             <CircleButton @click="btnDelClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">x</CircleButton>
             <CircleButton @click="btnBackClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">√</CircleButton>
-            <CircleButton @click="btnAddClick()">+</CircleButton>
+            <CircleButton @click="btnAddClick()" :style="`display: ${Route.name == 'todo'?'none':'flex'}`">+</CircleButton>
         </div>
     </div>
 </template>
