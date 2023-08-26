@@ -56,7 +56,7 @@ const btnDelClick = ()=>{
         <div class="buttons">
             <div class="apptitle">矩待办</div>
             <CircleButton @click="btnDelClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">x</CircleButton>
-            <CircleButton @click="btnBackClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">←</CircleButton>
+            <CircleButton @click="btnBackClick()" :style="`display: ${Route.name == 'todo'?'flex':'none'}`">√</CircleButton>
             <CircleButton @click="btnAddClick()">+</CircleButton>
         </div>
     </div>
