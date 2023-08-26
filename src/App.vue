@@ -50,7 +50,6 @@ const btnDelClick = ()=>{
 
 <template>
     <div class="main">
-        <Color></Color>
         <Card>
             <RouterView :points="todos"></RouterView>
         </Card>
