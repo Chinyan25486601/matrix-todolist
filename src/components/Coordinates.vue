@@ -32,16 +32,16 @@ const translateY = (y: number) => height.value - (y + maximumY) * (height.value 
 const getColor = (x:number, y:number) => {
     x = parseFloat(x.toString());
     y = parseFloat(y.toString());
-    let influencer: number = (x + y) / 2;
+    let influencer: number = -(x + y) / 2;
     let rawColor: number[] = [0, 0, 0];
 
     if (x >= 0 && y >= 0) {
         rawColor = [217, 36, 71];
     } else if (x > y) {
-        influencer = x
+        influencer = (-x)/2 + 0.5
         rawColor = [52, 83, 138];
     } else {
-        influencer = y
+        influencer = (-y)/2 + 0.5
         rawColor = [123, 47, 93];
     }
 
