@@ -17,13 +17,6 @@ const todos = useLocalStorage<Point[]>('todos', [{
     "description": ""
 }])
 
-if(todos.value.length>=100) todos.value = [{
-    "x": 0,
-    "y": 0,
-    "title": "",
-    "description": ""
-}];
-
 const varify_todos = ()=>{
     for(let i = 0; i!=todos.value.length; i++){
         todos.value[i].x = parseFloat(todos.value[i].x.toString())
